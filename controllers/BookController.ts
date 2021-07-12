@@ -10,17 +10,17 @@ export default class BookController {
   }
 
   public getBook(context: RouterContext) {
-    const id = context.params?.id || null;
+    const id = context.params.id;
     context.response.body = "getBook : " + id;
   }
 
   public updateBook(context: RouterContext) {
-    const id = context.params?.id || null;
+    const id = context.params.id;
     context.response.body = "updateBook : " + id;
   }
 
   public deleteBook(context: RouterContext) {
-    const id = context.params?.id || null;
+    const id = context.params.id;
     context.response.body = "deleteBook : " + id;
   }
 }

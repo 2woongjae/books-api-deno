@@ -7,7 +7,6 @@ const port = 5000;
 const app = new Application();
 
 app.use(router.routes());
-app.use(router.allowedMethods());
 
 app.use(notFound);
 
