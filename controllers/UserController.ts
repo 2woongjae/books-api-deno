@@ -1,6 +1,7 @@
 import { RouterContext, BodyForm } from "https://deno.land/x/oak/mod.ts";
 import { getUserByEmail } from "../models/User.ts";
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
+import { generate } from "../utils/token.ts";
 
 export default class UserController {
   public async login(context: RouterContext) {
@@ -24,7 +25,12 @@ export default class UserController {
     const match = await bcrypt.compare(password, user.password);
     console.log(match);
 
-    context.response.body = "login";
+    if (match) {
+      context.response.body = { token: await generate(user) };
+    } else {
+      context.response.status = 400;
+      context.response.body = { error: "wrong password" };
+    }
   }
 
   public logout(context: RouterContext) {
