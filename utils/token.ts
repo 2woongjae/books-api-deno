@@ -2,6 +2,8 @@ import {
   create,
   Header,
   getNumericDate,
+  verify,
+  Payload,
 } from "https://deno.land/x/djwt@v2.2/mod.ts";
 import { User } from "../models/User.ts";
 
@@ -23,4 +25,8 @@ export async function generate(user: User): Promise<string> {
     },
     key
   );
+}
+
+export async function validate(token: string): Promise<Payload> {
+  return await verify(token, key, header.alg);
 }
