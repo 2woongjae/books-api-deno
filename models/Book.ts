@@ -11,6 +11,8 @@ export interface Book {
   updated_at: Date;
 }
 
+export type BookPostData = Pick<Book, "title" | "message" | "author" | "url">;
+
 export async function getBooksByOwnerId(userId: string): Promise<Book[]> {
   const { rows } = await client.execute(
     `SELECT * FROM Books WHERE ownerId = '${userId}'`
@@ -18,4 +20,13 @@ export async function getBooksByOwnerId(userId: string): Promise<Book[]> {
   if (rows === undefined) throw new Error();
 
   return rows;
+}
+
+export async function createBook(
+  book: BookPostData,
+  ownerId: string
+): Promise<void> {
+  await client.execute(
+    `INSERT INTO Books VALUES (DEFAULT, '${ownerId}', '${book.title}', '${book.message}', '${book.author}', '${book.url}', DEFAULT, DEFAULT)`
+  );
 }
