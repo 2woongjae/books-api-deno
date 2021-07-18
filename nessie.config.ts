@@ -1,7 +1,4 @@
-import {
-  ClientMySQL,
-  NessieConfig,
-} from "https://deno.land/x/nessie@2.0.0/mod.ts";
+import { ClientMySQL, NessieConfig } from "./deps.ts";
 
 export const connectionOptions = {
   hostname: "localhost",

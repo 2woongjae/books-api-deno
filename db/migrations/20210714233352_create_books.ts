@@ -1,8 +1,4 @@
-import {
-  AbstractMigration,
-  Info,
-  ClientMySQL,
-} from "https://deno.land/x/nessie@2.0.0/mod.ts";
+import { AbstractMigration, Info, ClientMySQL } from "../../deps.ts";
 
 export default class extends AbstractMigration<ClientMySQL> {
   /** Runs on migrate */

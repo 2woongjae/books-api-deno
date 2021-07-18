@@ -1,4 +1,4 @@
-import { Middleware } from "https://deno.land/x/oak/mod.ts";
+import { Middleware } from "../deps.ts";
 
 const notFound: Middleware = (context) => {
   context.response.status = 404;

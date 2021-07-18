@@ -1,10 +1,4 @@
-import {
-  create,
-  Header,
-  getNumericDate,
-  verify,
-  Payload,
-} from "https://deno.land/x/djwt@v2.2/mod.ts";
+import { create, Header, getNumericDate, verify, Payload } from "../deps.ts";
 import { User } from "../models/User.ts";
 
 const key = "markzzang";

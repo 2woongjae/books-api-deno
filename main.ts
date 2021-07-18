@@ -1,5 +1,4 @@
-import { config } from "https://deno.land/x/dotenv/mod.ts";
-import { Application } from "https://deno.land/x/oak/mod.ts";
+import { config, Application } from "./deps.ts";
 import errorHandler from "./middlewares/errorHandler.ts";
 import router from "./middlewares/router.ts";
 import notFound from "./middlewares/not_found.ts";

@@ -2,9 +2,9 @@ import {
   AbstractMigration,
   Info,
   ClientMySQL,
-} from "https://deno.land/x/nessie@2.0.0/mod.ts";
-import { v4 } from "https://deno.land/std@0.100.0/uuid/mod.ts";
-import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
+  v4,
+  bcrypt,
+} from "../../deps.ts";
 
 export default class extends AbstractMigration<ClientMySQL> {
   /** Runs on migrate */

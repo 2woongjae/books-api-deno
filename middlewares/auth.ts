@@ -1,4 +1,4 @@
-import { Middleware } from "https://deno.land/x/oak/mod.ts";
+import { Middleware } from "../deps.ts";
 import { UnauthorizedError } from "../utils/error.ts";
 import { validate } from "../utils/token.ts";
 import { getUserByUserId, User } from "../models/User.ts";

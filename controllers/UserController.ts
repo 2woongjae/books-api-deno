@@ -1,6 +1,5 @@
-import { RouterContext, BodyForm } from "https://deno.land/x/oak/mod.ts";
+import { RouterContext, BodyForm, bcrypt } from "../deps.ts";
 import { getUserByEmail } from "../models/User.ts";
-import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
 import { generate } from "../utils/token.ts";
 
 export default class UserController {
