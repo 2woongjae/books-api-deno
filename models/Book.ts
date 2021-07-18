@@ -33,10 +33,29 @@ export async function createBook(
 
 export async function getBookById(id: number, ownerId: string): Promise<Book> {
   const { rows } = await client.execute(
-    `SELECT * FROM Books WHERE ownerId = '${ownerId}' AND id = id`
+    `SELECT * FROM Books WHERE id = ${id} AND ownerId = '${ownerId}'`
   );
   if (rows === undefined) throw new Error();
   if (rows.length !== 1) throw new Error();
 
   return rows[0];
+}
+
+export async function updateBookById(
+  book: BookPostData,
+  id: number,
+  ownerId: string
+): Promise<void> {
+  await client.execute(
+    `UPDATE Books SET title = '${book.title}', message = '${book.message}', author = '${book.author}', url = '${book.url}' WHERE id = ${id} AND ownerId = '${ownerId}'`
+  );
+}
+
+export async function deleteBookById(
+  id: number,
+  ownerId: string
+): Promise<void> {
+  await client.execute(
+    `DELETE FROM Books WHERE id = ${id} AND ownerId = '${ownerId}'`
+  );
 }
