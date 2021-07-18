@@ -2,29 +2,10 @@ import { RouterContext, BodyForm } from "https://deno.land/x/oak/mod.ts";
 import { validate } from "../utils/token.ts";
 import { getBooksByOwnerId, createBook, getBookById } from "../models/Book.ts";
 import { UnauthorizedError, ParameterRequired } from "../utils/error.ts";
+import { User } from "../models/User.ts";
 
 export default class BookController {
-  public async createBook(context: RouterContext) {
-    const authorization = context.request.headers.get("authorization");
-
-    if (authorization === null) {
-      throw new UnauthorizedError();
-    }
-
-    if (!authorization.startsWith("Bearer ")) {
-      throw new UnauthorizedError();
-    }
-
-    const token = authorization.replace("Bearer ", "");
-
-    const payload = await validate(token);
-
-    const userId = payload.userId as string;
-
-    if (userId === undefined) {
-      throw new UnauthorizedError();
-    }
-
+  public async createBook(context: RouterContext<{}, { user: User }>) {
     const { type, value } = (await context.request.body()) as BodyForm;
     const params = await value;
 
@@ -37,75 +18,38 @@ export default class BookController {
       throw new ParameterRequired();
     }
 
-    await createBook({ title, message, author, url }, userId);
+    await createBook(
+      { title, message, author, url },
+      context.state.user.userId
+    );
 
     context.response.body = { success: true };
   }
 
-  public async getBooks(context: RouterContext) {
-    const authorization = context.request.headers.get("authorization");
-
-    if (authorization === null) {
-      throw new UnauthorizedError();
-    }
-
-    if (!authorization.startsWith("Bearer ")) {
-      throw new UnauthorizedError();
-    }
-
-    const token = authorization.replace("Bearer ", "");
-
-    const payload = await validate(token);
-
-    const userId = payload.userId as string;
-
-    if (userId === undefined) {
-      throw new UnauthorizedError();
-    }
-
-    const books = await getBooksByOwnerId(userId);
+  public async getBooks(context: RouterContext<{}, { user: User }>) {
+    const books = await getBooksByOwnerId(context.state.user.userId);
 
     context.response.body = books;
   }
 
-  public async getBook(context: RouterContext) {
+  public async getBook(context: RouterContext<{ id: string }, { user: User }>) {
     const bookId = Number(context.params.id) || null;
 
     if (bookId === null) {
       throw new ParameterRequired();
     }
 
-    const authorization = context.request.headers.get("authorization");
-
-    if (authorization === null) {
-      throw new UnauthorizedError();
-    }
-
-    if (!authorization.startsWith("Bearer ")) {
-      throw new UnauthorizedError();
-    }
-
-    const token = authorization.replace("Bearer ", "");
-
-    const payload = await validate(token);
-
-    const userId = payload.userId as string;
-
-    if (userId === undefined) {
-      throw new UnauthorizedError();
-    }
-
-    const book = await getBookById(bookId, userId);
+    const book = await getBookById(bookId, context.state.user.userId);
 
     context.response.body = book;
   }
 
-  public updateBook(context: RouterContext) {
+  public updateBook(context: RouterContext<{ id: string }, { user: User }>) {
     const id = context.params.id;
     context.response.body = "updateBook : " + id;
   }
 
-  public deleteBook(context: RouterContext) {
+  public deleteBook(context: RouterContext<{ id: string }, { user: User }>) {
     const id = context.params.id;
     context.response.body = "deleteBook : " + id;
   }

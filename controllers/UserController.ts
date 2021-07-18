@@ -11,8 +11,6 @@ export default class UserController {
     const email = params.get("email");
     const password = params.get("password");
 
-    console.log(email, password); // 2woongjae@gmail.com deno1234
-
     if (email === null || password === null) {
       context.response.status = 422;
       context.response.body = { error: "email or password required" };
@@ -20,10 +18,8 @@ export default class UserController {
     }
 
     const user = await getUserByEmail(email);
-    console.log(user);
 
     const match = await bcrypt.compare(password, user.password);
-    console.log(match);
 
     if (match) {
       context.response.body = { token: await generate(user) };

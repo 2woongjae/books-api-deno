@@ -17,3 +17,12 @@ export async function getUserByEmail(email: string): Promise<User> {
   if (rows.length !== 1) throw new Error();
   return rows[0];
 }
+
+export async function getUserByUserId(userId: string): Promise<User> {
+  const { rows } = await client.execute(
+    `SELECT * FROM Users WHERE userId = '${userId}'`
+  );
+  if (rows === undefined) throw new Error();
+  if (rows.length !== 1) throw new Error();
+  return rows[0];
+}
