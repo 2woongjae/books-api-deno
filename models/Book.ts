@@ -33,7 +33,7 @@ export async function createBook(
 
 export async function getBookById(id: number, ownerId: string): Promise<Book> {
   const { rows } = await client.execute(
-    `SELECT * FROM Books WHERE ownerId = '${ownerId}' AND id = id`
+    `SELECT * FROM Books WHERE id = ${id} AND ownerId = '${ownerId}'`
   );
   if (rows === undefined) throw new Error();
   if (rows.length !== 1) throw new Error();
