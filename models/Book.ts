@@ -30,3 +30,13 @@ export async function createBook(
     `INSERT INTO Books VALUES (DEFAULT, '${ownerId}', '${book.title}', '${book.message}', '${book.author}', '${book.url}', DEFAULT, DEFAULT)`
   );
 }
+
+export async function getBookById(id: number, ownerId: string): Promise<Book> {
+  const { rows } = await client.execute(
+    `SELECT * FROM Books WHERE ownerId = '${ownerId}' AND id = id`
+  );
+  if (rows === undefined) throw new Error();
+  if (rows.length !== 1) throw new Error();
+
+  return rows[0];
+}
